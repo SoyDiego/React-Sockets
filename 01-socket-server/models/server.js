@@ -4,11 +4,12 @@ const express = require("express");
 const http = require("http");
 const socketio = require("socket.io");
 const path = require("path");
+const Sockets = require("./sockets");
 
 class Server {
 	constructor() {
 		this.app = express();
-		this.port = 8080;
+		this.port = process.env.PORT;
 
 		//HTTP SERVER
 		this.server = http.createServer(this.app);
@@ -25,7 +26,7 @@ class Server {
 	}
 
 	configurarSockets() {
-		// ???
+		new Sockets(this.io);
 	}
 
 	execute() {
