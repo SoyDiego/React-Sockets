@@ -4,7 +4,7 @@ import BandAdd from "./components/BandAdd";
 import BandList from "./components/BandList";
 
 const connectSocketServer = () => {
-	const socket = io.connect("http://localhost:8080", {
+	const socket = io.connect("ws://localhost:8080", {
 		transports: ["websocket"],
 	});
 	return socket;
@@ -12,17 +12,19 @@ const connectSocketServer = () => {
 
 function App() {
 	const [socket] = useState(connectSocketServer());
+	const [bands, setBands] = useState([]);
 	const [online, setOnline] = useState(false);
 
 	useEffect(() => {
 		setOnline(socket.connected);
-
-		return socket.disconnect();
 	}, [socket]);
 
 	useEffect(() => {
 		socket.on("connect", () => {
 			setOnline(true);
+		});
+		socket.io.on("error", (error) => {
+			console.log(error);
 		});
 	}, [socket]);
 
@@ -32,11 +34,18 @@ function App() {
 		});
 	}, [socket]);
 
+	useEffect(() => {
+		socket.on("current-bands", (bands) => {
+			console.log(bands);
+			setBands(bands);
+		});
+	}, [socket]);
+
 	return (
 		<div className="container">
 			<div className="alert">
 				<p>
-					Service status:{" "}
+					Service status:
 					{online ? (
 						<span className="text-success">Online</span>
 					) : (
@@ -50,7 +59,7 @@ function App() {
 
 			<div className="row">
 				<div className="col-8">
-					<BandList />
+					<BandList data={bands} />
 				</div>
 
 				<div className="col-4">

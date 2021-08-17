@@ -1,33 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const BandList = () => {
+const BandList = ({ data }) => {
+	const [bands, setBands] = useState(data);
+
+	useEffect(() => {
+		setBands(data);
+	}, [data]);
+
+	const cambioNombre = (e, id) => {
+		const nuevoNombre = e.target.value;
+		setBands((bands) =>
+			bands.map((band) => {
+				if (band.id === id) {
+					band.name = nuevoNombre;
+				}
+				return band;
+			})
+		);
+	};
+
+	const onBlur = (id, nombre) => {
+		console.log(id, nombre);
+	};
+
 	const crearRows = () => {
-		return (
-			<tr>
+		return bands.map((band) => (
+			<tr key={band.id}>
 				<td>
-					<button name="" id="" class="btn btn-primary">
+					<button name="" id="" className="btn btn-primary">
 						+1
 					</button>
 				</td>
 				<td>
 					<input
 						type="text"
-						class="form-control"
-						name=""
-						id=""
-						placeholder=""
+						className="form-control"
+						value={band.name}
+						onChange={(e) => cambioNombre(e, band.id)}
+						onBlur={() => onBlur(band.id, band.name)}
 					/>
 				</td>
 				<td>
-					<h3>15</h3>
+					<h3>{band.votes}</h3>
 				</td>
 				<td>
-					<button name="" id="" class="btn btn-danger">
+					<button name="" id="" className="btn btn-danger">
 						Borrar
 					</button>
 				</td>
 			</tr>
-		);
+		));
 	};
 
 	return (
