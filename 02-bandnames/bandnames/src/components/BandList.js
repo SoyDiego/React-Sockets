@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const BandList = ({ data, votar, borrar }) => {
+const BandList = ({ data, votar, borrar, cambiarNombre }) => {
 	const [bands, setBands] = useState(data);
 
 	useEffect(() => {
@@ -20,7 +20,7 @@ const BandList = ({ data, votar, borrar }) => {
 	};
 
 	const onBlur = (id, nombre) => {
-		console.log(id, nombre);
+		cambiarNombre(id, nombre);
 	};
 
 	const crearRows = () => {

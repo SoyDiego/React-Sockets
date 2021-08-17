@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 
-const BandAdd = () => {
+const BandAdd = ({ crearBanda }) => {
+	const [valor, setValor] = useState("");
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		if (valor.trim().length > 0) {
+			crearBanda(valor);
+		}
+		setValor("");
+	};
+
 	return (
 		<>
 			<h3>Agregar Banda</h3>
-			<form>
-				<input className="form-control" type="text" name="" id="" placeholder="Nuevo nombre" />
+			<form onSubmit={handleSubmit}>
+				<input
+					className="form-control"
+					type="text"
+					value={valor}
+					onChange={(e) => setValor(e.target.value)}
+					placeholder="Nuevo nombre"
+				/>
 			</form>
 		</>
 	);
