@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const BandList = ({ data }) => {
+const BandList = ({ data, votar }) => {
 	const [bands, setBands] = useState(data);
 
 	useEffect(() => {
@@ -27,7 +27,9 @@ const BandList = ({ data }) => {
 		return bands.map((band) => (
 			<tr key={band.id}>
 				<td>
-					<button name="" id="" className="btn btn-primary">
+					<button
+						onClick={() => votar(band.id)}
+						className="btn btn-primary">
 						+1
 					</button>
 				</td>
