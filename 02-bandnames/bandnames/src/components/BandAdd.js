@@ -11,7 +11,7 @@ const BandAdd = ({ crearBanda }) => {
 		}
 		setValor("");
 	};
-
+	
 	return (
 		<>
 			<h3>Agregar Banda</h3>
