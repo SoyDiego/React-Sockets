@@ -1,11 +1,11 @@
 import React from "react";
-import App from "./App";
+import HomePage from "./pages/HomePage";
 import { SocketProvider } from "./context/SocketContext";
 
 const BandNamesApp = () => {
 	return (
 		<SocketProvider>
-			<App />
+			<HomePage />
 		</SocketProvider>
 	);
 };
