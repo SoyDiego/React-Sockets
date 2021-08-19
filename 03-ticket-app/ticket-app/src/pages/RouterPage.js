@@ -25,7 +25,7 @@ const RouterPage = () => {
 	return (
 		<Router>
 			<Layout style={{ height: "100vh" }}>
-				<Sider>
+				<Sider collapsedWidth="0" breakpoint="md">
 					<div className="logo" />
 					<Menu
 						theme="dark"
