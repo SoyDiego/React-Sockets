@@ -1,27 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Typography, Button, Divider } from "antd";
 import { CloseCircleOutlined, RightOutlined } from "@ant-design/icons";
 import useHideMenu from "../hooks/useHideMenu";
+import { getUsuarioStorage } from "../helpers/getUsuarioStorage";
+import { Redirect, useHistory } from "react-router-dom";
 
 const Escritorio = () => {
 	useHideMenu(false);
+	const [usuario] = useState(getUsuarioStorage);
 	const { Title, Text } = Typography;
+	const history = useHistory();
 
 	const salir = () => {
-		alert("salir");
+		localStorage.clear();
+		history.replace("/ingresar");
 	};
 
 	const siguienteTicket = () => {
 		alert("Siguiente");
 	};
 
+	if (!usuario.agente || !usuario.escritorio) {
+		return <Redirect to="/ingresar" />;
+	}
+
 	return (
 		<>
 			<Row>
 				<Col span={20}>
-					<Title level={2}>Diego</Title>
+					<Title level={2}>{usuario.agente}</Title>
 					<Text>Usted está trabajando en el escritorio: </Text>
-					<Text type="success">5</Text>
+					<Text type="success">{usuario.escritorio}</Text>
 				</Col>
 
 				<Col span={4} align="right">
