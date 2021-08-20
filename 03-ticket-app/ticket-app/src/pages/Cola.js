@@ -1,5 +1,6 @@
 import React from "react";
 import { Row, Col, Typography, Divider, List, Card, Tag } from "antd";
+import useHideMenu from "../hooks/useHideMenu";
 
 const data = [
 	{
@@ -40,6 +41,7 @@ const data = [
 ];
 
 const Cola = () => {
+	useHideMenu(true);
 	const { Title, Text } = Typography;
 	return (
 		<>

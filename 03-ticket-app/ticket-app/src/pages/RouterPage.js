@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Layout, Menu } from "antd";
 import {
@@ -18,14 +18,17 @@ import Cola from "./Cola";
 import CrearTicket from "./CrearTicket";
 import Ingresar from "./Ingresar";
 import Escritorio from "./Escritorio";
+import { UiContext } from "../context/UiContext";
 
 const { Sider, Content } = Layout;
 
 const RouterPage = () => {
+	const { ocultarMenu } = useContext(UiContext);
+
 	return (
 		<Router>
 			<Layout style={{ height: "100vh" }}>
-				<Sider collapsedWidth="0" breakpoint="md">
+				<Sider collapsedWidth="0" breakpoint="md" hidden={ocultarMenu}>
 					<div className="logo" />
 					<Menu
 						theme="dark"
