@@ -1,55 +1,30 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Row, Col, Typography, Divider, List, Card, Tag } from "antd";
 import useHideMenu from "../hooks/useHideMenu";
-
-const data = [
-	{
-		ticketNo: 33,
-		escritorio: 3,
-		agente: "Fernando Herrera",
-	},
-	{
-		ticketNo: 34,
-		escritorio: 4,
-		agente: "Melissa Flores",
-	},
-	{
-		ticketNo: 35,
-		escritorio: 5,
-		agente: "Carlos Castro",
-	},
-	{
-		ticketNo: 36,
-		escritorio: 3,
-		agente: "Fernando Herrera",
-	},
-	{
-		ticketNo: 37,
-		escritorio: 3,
-		agente: "Fernando Herrera",
-	},
-	{
-		ticketNo: 38,
-		escritorio: 2,
-		agente: "Melissa Flores",
-	},
-	{
-		ticketNo: 39,
-		escritorio: 5,
-		agente: "Carlos Castro",
-	},
-];
+import { SocketContext } from "../context/SocketContext";
 
 const Cola = () => {
 	useHideMenu(true);
+	const { socket } = useContext(SocketContext);
+	const [tickets, setTickets] = useState([]);
 	const { Title, Text } = Typography;
+
+	useEffect(() => {
+		socket.on("ticket-asignado", (asignados) => {
+			setTickets(asignados);
+		});
+		return () => {
+			socket.off("ticket-asignado");
+		};
+	}, [socket]);
+
 	return (
 		<>
 			<Title level={1}>Atendiendo al cliente</Title>
 			<Row>
 				<Col span={12}>
 					<List
-						dataSource={data.slice(0, 3)}
+						dataSource={tickets.slice(0, 3)}
 						renderItem={(item) => (
 							<List.Item>
 								<Card
@@ -62,7 +37,7 @@ const Cola = () => {
 											Escritorio: {item.escritorio}
 										</Tag>,
 									]}>
-									<Title>Nro. {item.ticketNo}</Title>
+									<Title>Nro. {item.numero}</Title>
 								</Card>
 							</List.Item>
 						)}
@@ -71,18 +46,18 @@ const Cola = () => {
 				<Col span={12} align="center">
 					<Divider>Historial</Divider>
 					<List
-						dataSource={data.slice(3)}
+						dataSource={tickets.slice(3)}
 						renderItem={(item) => (
 							<List.Item>
 								<List.Item.Meta
-									title={`Ticket Nro. ${item.ticketNo}`}
+									title={`Ticket Nro. ${item.numero}`}
 									description={
 										<>
 											<Text type="secondary">
 												En el escritorio:{" "}
 											</Text>
 											<Tag color="magenta">
-												{item.ticketNo}
+												{item.numero}
 											</Tag>
 											<Text type="secondary">
 												Agente:{" "}

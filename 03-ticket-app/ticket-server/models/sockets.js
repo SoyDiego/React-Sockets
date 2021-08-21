@@ -28,6 +28,7 @@ class Sockets {
 						escritorio
 					);
 					callback(suTicket);
+					this.io.emit("ticket-asignado", this.ticketList.ultimos13);
 				}
 			);
 		});
