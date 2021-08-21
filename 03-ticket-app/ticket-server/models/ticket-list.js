@@ -38,6 +38,8 @@ class TicketList {
 
 		//Agrega como primer elemento del arreglo UNSHIFT.
 		this.asignados.unshift(siguienteTicket);
+
+		return siguienteTicket;
 	}
 }
 
