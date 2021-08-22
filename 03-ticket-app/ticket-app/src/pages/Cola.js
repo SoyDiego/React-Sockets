@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Row, Col, Typography, Divider, List, Card, Tag } from "antd";
 import useHideMenu from "../hooks/useHideMenu";
 import { SocketContext } from "../context/SocketContext";
+import getUltimos from "../helpers/getUltimos";
 
 const Cola = () => {
 	useHideMenu(true);
@@ -17,6 +18,10 @@ const Cola = () => {
 			socket.off("ticket-asignado");
 		};
 	}, [socket]);
+
+	useEffect(() => {
+		getUltimos().then((tickets) => setTickets(tickets));
+	}, []);
 
 	return (
 		<>
