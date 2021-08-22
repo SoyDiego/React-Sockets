@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
+import { v4 } from "uuid";
 
 mapboxgl.accessToken =
 	"pk.eyJ1Ijoic295ZGllZ28iLCJhIjoiY2sxcnJvZHJpMDE1bjNjbjNpMDR1N3RhbyJ9.YO91_GjInSSuSjzhlbPpGw";
@@ -11,6 +12,11 @@ const useMapBox = (puntoInicial) => {
 		mapaDiv.current = node;
 	}, []);
 
+	// Referencia a los marcadores
+
+	const marcadores = useRef({});
+
+	// Mapa y coords
 	const mapa = useRef();
 	const [coords, setCoords] = useState(puntoInicial);
 
@@ -38,8 +44,23 @@ const useMapBox = (puntoInicial) => {
 			});
 		});
 	}, []);
+
+	// Agregar marcadores cuando hago click
+	useEffect(() => {
+		mapa.current?.on("click", (e) => {
+			const { lng, lat } = e.lngLat;
+			const marker = new mapboxgl.Marker();
+
+			marker.id = v4();
+			marker.setLngLat([lng, lat]).addTo(mapa.current).setDraggable(true);
+
+			marcadores.current[ marker.id ] = marker;
+		});
+	}, []);
+
 	return {
 		coords,
+        marcadores,
 		setRef,
 	};
 };
