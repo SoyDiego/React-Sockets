@@ -1,11 +1,12 @@
-import React from 'react'
+import React from "react";
+import MapaPage from "./pages/MapaPage";
 
 const MapasApp = () => {
-    return (
-        <div>
-            <h1>Hola Mundo</h1>
-        </div>
-    )
-}
+	return (
+	
+			<MapaPage />
 
-export default MapasApp
+	);
+};
+
+export default MapasApp;
