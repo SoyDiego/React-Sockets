@@ -5,15 +5,16 @@ mapboxgl.accessToken =
 	"pk.eyJ1Ijoic295ZGllZ28iLCJhIjoiY2sxcnJvZHJpMDE1bjNjbjNpMDR1N3RhbyJ9.YO91_GjInSSuSjzhlbPpGw";
 
 const puntoInicial = {
-	lng: 5,
-	lat: 34,
-	zoom: 2,
+	lng: -122.4651,
+	lat: 37.8001,
+	zoom: 13,
 };
 
 const MapaPage = () => {
 	const mapaDiv = useRef();
 
-	const [, setMapa] = useState(null);
+	const [mapa, setMapa] = useState(null);
+	const [coords, setCoords] = useState(puntoInicial);
 
 	useEffect(() => {
 		mapboxgl.accessToken =
@@ -28,8 +29,23 @@ const MapaPage = () => {
 		setMapa(map);
 	}, []);
 
+	// Cuando se mueve el mapa
+	useEffect(() => {
+		mapa?.on("move", () => {
+			const { lng, lat } = mapa.getCenter();
+			setCoords({
+				lng: lng.toFixed(4),
+				lat: lat.toFixed(4),
+				zoom: mapa.getZoom().toFixed(2),
+			});
+		});
+	}, [mapa]);
+
 	return (
 		<>
+			<div className="info">
+				lng: {coords.lng} | lat: {coords.lat} | zoom: {coords.zoom}
+			</div>
 			<div className="mapContainer" ref={mapaDiv} />
 		</>
 	);
