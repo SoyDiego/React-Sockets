@@ -20,6 +20,17 @@ const useMapBox = (puntoInicial) => {
 	const mapa = useRef();
 	const [coords, setCoords] = useState(puntoInicial);
 
+	// Funcion para agregar marcadores
+	const agregarMarcador = useCallback((e) => {
+		const { lng, lat } = e.lngLat;
+		const marker = new mapboxgl.Marker();
+
+		marker.id = v4();
+		marker.setLngLat([lng, lat]).addTo(mapa.current).setDraggable(true);
+
+		marcadores.current[marker.id] = marker;
+	}, []);
+
 	useEffect(() => {
 		mapboxgl.accessToken =
 			"pk.eyJ1Ijoic295ZGllZ28iLCJhIjoiY2tzbXpqdTJxMGpyZjJwcGUya3pyaXp0dyJ9.yos6WbJLiwjcfv5JCxCngg";
@@ -47,20 +58,15 @@ const useMapBox = (puntoInicial) => {
 
 	// Agregar marcadores cuando hago click
 	useEffect(() => {
-		mapa.current?.on("click", (e) => {
-			const { lng, lat } = e.lngLat;
-			const marker = new mapboxgl.Marker();
-
-			marker.id = v4();
-			marker.setLngLat([lng, lat]).addTo(mapa.current).setDraggable(true);
-
-			marcadores.current[ marker.id ] = marker;
+		mapa.current.on("click", (e) => {
+			agregarMarcador(e);
 		});
-	}, []);
+	}, [agregarMarcador]);
 
 	return {
+		agregarMarcador,
 		coords,
-        marcadores,
+		marcadores,
 		setRef,
 	};
 };
