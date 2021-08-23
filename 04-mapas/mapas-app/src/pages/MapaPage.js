@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useMapBox from "../hooks/useMapBox";
 
 const puntoInicial = {
@@ -8,7 +8,14 @@ const puntoInicial = {
 };
 
 const MapaPage = () => {
-	const { setRef, coords, agregarMarcador } = useMapBox(puntoInicial);
+	const { setRef, coords, agregarMarcador, nuevoMarcador$ } =
+		useMapBox(puntoInicial);
+
+	useEffect(() => {
+		nuevoMarcador$.subscribe((marcador) => {
+			// TODO emitir nuevo marcador
+		});
+	}, [nuevoMarcador$]);
 
 	return (
 		<>
