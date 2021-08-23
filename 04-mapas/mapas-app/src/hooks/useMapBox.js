@@ -46,7 +46,11 @@ const useMapBox = (puntoInicial) => {
 			const { id } = target;
 			const { lng, lat } = target.getLngLat();
 
-			// TODO emitir los cambios del marcador
+			movimientoMarcador.current.next({
+				id,
+				lng,
+				lat,
+			});
 		});
 	}, []);
 
@@ -88,6 +92,7 @@ const useMapBox = (puntoInicial) => {
 		marcadores,
 		setRef,
 		nuevoMarcador$: nuevoMarcador.current,
+		movimientoMarcador$: movimientoMarcador.current,
 	};
 };
 
