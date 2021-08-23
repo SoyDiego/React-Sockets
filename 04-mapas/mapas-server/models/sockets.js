@@ -12,12 +12,13 @@ class Sockets {
 	socketEvents() {
 		// On connection
 		this.io.on("connection", (socket) => {
-            
-            // TODO marcadores-activos
+			console.log("Cliente conectado");
 
-            // TODO marcador-nuevo
+			// TODO marcadores-activos
 
-            // TODO marcador-actualizado
+			// TODO marcador-nuevo
+
+			// TODO marcador-actualizado
 		});
 	}
 }
