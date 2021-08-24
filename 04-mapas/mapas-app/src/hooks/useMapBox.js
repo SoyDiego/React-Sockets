@@ -55,6 +55,11 @@ const useMapBox = (puntoInicial) => {
 		});
 	}, []);
 
+	// Funcion para actualizar la ubicación del marcador
+	const actualizarPosicion = useCallback(({ id, lng, lat }) => {
+		marcadores.current[id].setLngLat([lng, lat]);
+	}, []);
+
 	useEffect(() => {
 		mapboxgl.accessToken =
 			"pk.eyJ1Ijoic295ZGllZ28iLCJhIjoiY2tzbXpqdTJxMGpyZjJwcGUya3pyaXp0dyJ9.yos6WbJLiwjcfv5JCxCngg";
@@ -89,6 +94,7 @@ const useMapBox = (puntoInicial) => {
 
 	return {
 		agregarMarcador,
+		actualizarPosicion,
 		coords,
 		marcadores,
 		setRef,
