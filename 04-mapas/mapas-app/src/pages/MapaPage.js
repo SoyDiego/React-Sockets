@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
+import { SocketContext } from "../context/SocketContext";
 import useMapBox from "../hooks/useMapBox";
 
 const puntoInicial = {
@@ -8,19 +9,17 @@ const puntoInicial = {
 };
 
 const MapaPage = () => {
-	const {
-		setRef,
-		coords,
-		nuevoMarcador$,
-		movimientoMarcador$,
-	} = useMapBox(puntoInicial);
+	const { setRef, coords, nuevoMarcador$, movimientoMarcador$ } =
+		useMapBox(puntoInicial);
+
+	const { socket } = useContext(SocketContext);
 
 	// Nuevo marcador
 	useEffect(() => {
 		nuevoMarcador$.subscribe((marcador) => {
-			// TODO emitir nuevo marcador
+			socket.emit("marcador-nuevo", marcador);
 		});
-	}, [nuevoMarcador$]);
+	}, [nuevoMarcador$, socket]);
 
 	// Movimiento marcador
 	useEffect(() => {
@@ -29,6 +28,13 @@ const MapaPage = () => {
 			console.log(marcador);
 		});
 	}, [movimientoMarcador$]);
+
+	// Escuchar nuevos marcadores
+	useEffect(() => {
+		socket.on("marcador-nuevo", (marcador) => {
+			console.log(marcador);
+		});
+	}, [socket]);
 
 	return (
 		<>
