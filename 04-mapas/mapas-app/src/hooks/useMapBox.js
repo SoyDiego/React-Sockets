@@ -25,21 +25,22 @@ const useMapBox = (puntoInicial) => {
 	const [coords, setCoords] = useState(puntoInicial);
 
 	// Funcion para agregar marcadores
-	const agregarMarcador = useCallback((e) => {
-		const { lng, lat } = e.lngLat;
+	const agregarMarcador = useCallback((e, id) => {
+		const { lng, lat } = e.lngLat || e;
 		const marker = new mapboxgl.Marker();
 
-		marker.id = v4();
+		marker.id = id || v4();
 		marker.setLngLat([lng, lat]).addTo(mapa.current).setDraggable(true);
 
 		marcadores.current[marker.id] = marker;
 
-		// TODO si el marcador tiene ID no emitir
-		nuevoMarcador.current.next({
-			id: marker.id,
-			lng,
-			lat,
-		});
+		if (!id) {
+			nuevoMarcador.current.next({
+				id: marker.id,
+				lng,
+				lat,
+			});
+		}
 
 		// Escuchar movimientos del marcador
 		marker.on("drag", ({ target }) => {
