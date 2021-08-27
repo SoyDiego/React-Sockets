@@ -72,10 +72,8 @@ const login = async (req, res = response) => {
 		res.json({
 			ok: true,
 			usuario: usuarioDB,
-			token
-		})
-
-
+			token,
+		});
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({
@@ -86,9 +84,18 @@ const login = async (req, res = response) => {
 };
 
 const renewToken = async (req, res = response) => {
+	const uid = req.uid;
+
+	// Generar nuevo JWT
+	const token = await generarJWT(uid);
+
+	// Obrener el usuario por UID
+	const usuario = await Usuario.findById(uid);
+
 	res.json({
 		ok: true,
-		msg: "renew",
+		usuario,
+		token,
 	});
 };
 module.exports = { crearUsuario, login, renewToken };
