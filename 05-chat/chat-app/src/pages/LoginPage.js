@@ -1,9 +1,36 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
-    return (
-		<form className="login100-form validate-form flex-sb flex-w">
+	const [form, setForm] = useState({
+		email: "test1@test.com",
+		password: "123456",
+		rememberMe: false,
+	});
+
+	const onChange = ({ target }) => {
+		const { name, value } = target;
+		setForm({
+			...form,
+			[name]: value,
+		});
+	};
+
+	const toggleCheck = () => {
+		setForm({
+			...form,
+			rememberMe: !form.rememberMe,
+		});
+	};
+
+	const onSubmit = (e) => {
+		e.preventDefault();
+	};
+
+	return (
+		<form
+			onSubmit={onSubmit}
+			className="login100-form validate-form flex-sb flex-w">
 			<span className="login100-form-title mb-3">Chat - Ingreso</span>
 
 			<div className="wrap-input100 validate-input mb-3">
@@ -12,6 +39,8 @@ const LoginPage = () => {
 					type="email"
 					name="email"
 					placeholder="Email"
+					value={form.email}
+					onChange={onChange}
 				/>
 				<span className="focus-input100"></span>
 			</div>
@@ -22,17 +51,22 @@ const LoginPage = () => {
 					type="password"
 					name="password"
 					placeholder="Password"
+					value={form.password}
+					onChange={onChange}
 				/>
 				<span className="focus-input100"></span>
 			</div>
 
 			<div className="row mb-3">
-				<div className="col">
+				<div className="col" onClick={() => toggleCheck()}>
 					<input
 						className="input-checkbox100"
 						id="ckb1"
 						type="checkbox"
-						name="remember-me"
+						name="rememberMe"
+						checked={form.rememberMe}
+						onChange={onChange}
+						readOnly
 					/>
 					<label className="label-checkbox100">Recordarme</label>
 				</div>
@@ -49,6 +83,6 @@ const LoginPage = () => {
 			</div>
 		</form>
 	);
-}
+};
 
-export default LoginPage
+export default LoginPage;
